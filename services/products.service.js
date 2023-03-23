@@ -9,7 +9,7 @@ class ProductsServices {
   generate() {
     for(let i = 0; i < 100; i++) {
       this.products.push({
-        id: i+1,
+        id: faker.datatype.uuid(),
         name: faker.commerce.productName(),
         price: parseInt(faker.commerce.price()),
         image: faker.image.imageUrl(),
@@ -17,8 +17,13 @@ class ProductsServices {
     }
   }
 
-  create() {
-
+  create(product) {
+    const newProduct = {
+      id: faker.datatype.uuid(),
+      ...product,
+    };
+    this.products.push(newProduct);
+    return newProduct;
   }
 
   find() {

@@ -11,16 +11,15 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  const product = service.findOne(parseInt(req.params.id));
+  const { id } = req.params;
+  const product = service.findOne(id);
   res.json(product);
 });
 
 router.post("/", (req, res) => {
   const body = req.body;
-  res.status(201).json({
-    message: "Producto creado",
-    data: body,
-  });
+  const newProduct = service.create(body);
+  res.status(201).json(newProduct);
 });
 
 router.put("/:id", (req, res) => {
