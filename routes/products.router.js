@@ -28,7 +28,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const body = req.body;
-  res.json({
+  res.status(201).json({
     message: "Producto creado",
     data: body,
   });
