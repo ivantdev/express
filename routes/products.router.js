@@ -1,29 +1,18 @@
 const express = require("express");
-const { faker } = require("@faker-js/faker");
+
+const productsService = require("../services/products.service");
+const service = new productsService();
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  const products = [];
-  for(let i = 0; i < 10; i++) {
-    products.push({
-      id: i+1,
-      name: faker.commerce.productName(),
-      price: parseInt(faker.commerce.price()),
-      image: faker.image.imageUrl(),
-    });
-  }
-  res.json({
-    products,
-  });
+  const products = service.find();
+  res.json(products);
 });
 
 router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  res.json({
-    id,
-    name: `Producto ${id}`,
-  });
+  const product = service.findOne(parseInt(req.params.id));
+  res.json(product);
 });
 
 router.post("/", (req, res) => {
