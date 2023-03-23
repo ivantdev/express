@@ -40,4 +40,10 @@ router.patch("/:id", (req, res) => {
   res.json(product);
 });
 
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const product = service.delete(id);
+  res.json(product);
+});
+
 module.exports = router;
