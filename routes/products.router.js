@@ -35,11 +35,9 @@ router.put("/:id", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    message: "Producto actualizado parcialmente",
-    data: body,
-    id,
-  });
+
+  const product = service.update(id, body);
+  res.json(product);
 });
 
 module.exports = router;
