@@ -9,7 +9,7 @@ class categoriesServices {
   generate() {
     for(let i = 0; i < 10; i++) {
       this.categories.push({
-        id: i+1,
+        id: faker.datatype.uuid(),
         name: faker.commerce.productName(),
       });
     }
