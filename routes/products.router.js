@@ -32,7 +32,7 @@ router.put("/:id", async (req, res) => {
   });
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
   const body = req.body;
 
@@ -40,22 +40,18 @@ router.patch("/:id", async (req, res) => {
     const product = await service.update(id, body);
     res.json(product);
   } catch(error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
 
   try {
     const product = await service.delete(id);
     res.json(product);
   } catch(error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 

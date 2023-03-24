@@ -1,4 +1,5 @@
 const express = require("express");
+const { errorHandler, logErrors } = require("./middlewares/error.handler");
 const routerApi = require("./routes");
 const app = express();
 const port = 3001;
@@ -11,6 +12,10 @@ app.get("/", (req, res) => {
 });
 
 routerApi(app);
+
+// middleware de error
+app.use(logErrors);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Estamos corriendo en: http://localhost:${port}`)
