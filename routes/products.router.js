@@ -10,10 +10,14 @@ router.get("/", async (req, res) => {
   res.json(products);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const product = await service.findOne(id);
-  res.json(product);
+  try {
+    const product = await service.findOne(id);
+    res.json(product);
+  } catch(error) {
+    next(error);
+  }
 });
 
 router.post("/", async (req, res) => {
