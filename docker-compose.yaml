@@ -7,6 +7,6 @@ services:
       - POSTGRES_USER=ivan
       - POSTGRES_PASSWORD=ivanpass
     ports:
-      - "5434:5434"
+      - "5434:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
