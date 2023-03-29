@@ -33,10 +33,6 @@ class UserService {
     await user.destroy();
     return { id };
   }
-
-  async get (id) {
-    return id;
-  }
 }
 
 module.exports = UserService;
