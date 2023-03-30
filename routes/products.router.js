@@ -17,9 +17,11 @@ router.get("/", async (req, res) => {
   res.json(products);
 });
 
-router.get("/:id", validatorHandler(getProductSchema, "params"),
+router.get("/:id",
+  validatorHandler(getProductSchema, "params"),
   async (req, res, next) => {
     const { id } = req.params;
+
     try {
       const product = await service.findOne(id);
       res.json(product);
@@ -29,28 +31,39 @@ router.get("/:id", validatorHandler(getProductSchema, "params"),
   }
 );
 
-router.post("/", validatorHandler(createProductSchema, "body"),
-  async (req, res) => {
-  const body = req.body;
-  const newProduct = await service.create(body);
-  res.status(201).json(newProduct);
-});
-
-router.put("/:id", validatorHandler(getProductSchema, "params"),
-  validatorHandler(updateProductSchema, "params"),
-  async (req, res) => {
-    const { id } = req.params;
+router.post("/",
+  validatorHandler(createProductSchema, "body"),
+  async (req, res, next) => {
     const body = req.body;
-    res.json({
-      message: "Producto actualizado",
-      data: body,
-      id,
-    });
+
+    try {
+      const newProduct = await service.create(body);
+      res.status(201).json(newProduct);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
-router.patch("/:id", validatorHandler(getProductSchema, "params"),
-  validatorHandler(updateProductSchema, "params"),
+router.put("/:id",
+  validatorHandler(getProductSchema, "params"),
+  validatorHandler(updateProductSchema, "body"),
+  async (req, res, next) => {
+    const { id } = req.params;
+    const body = req.body;
+
+    try {
+      res = await service.update(id, body);
+      res.json(res);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.patch("/:id",
+  validatorHandler(getProductSchema, "params"),
+  validatorHandler(updateProductSchema, "body"),
   async (req, res, next) => {
     const { id } = req.params;
     const body = req.body;
@@ -64,7 +77,8 @@ router.patch("/:id", validatorHandler(getProductSchema, "params"),
   }
 );
 
-router.delete("/:id", validatorHandler(getProductSchema, "params"),
+router.delete("/:id",
+  validatorHandler(getProductSchema, "params"),
   async (req, res, next) => {
     const { id } = req.params;
 
