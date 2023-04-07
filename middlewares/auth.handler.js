@@ -1,12 +1,14 @@
 const boom = require("@hapi/boom");
 
-function checkAPIKey(req, res, next) {
-  const apiKey = req.headers["x-api-key"];
-  if(apiKey == "123") {
-    next();
-  } else {
-    next(boom.unauthorized("API Key is required"));
+function checkRoles(...roles) {
+  return (req, res, next) => {
+    const { user } = req;
+    if(roles.includes(user.role)) {
+      next();
+    } else {
+      next(boom.unauthorized("You are not authorized"));
+    }
   }
 }
 
-module.exports = checkAPIKey;
+module.exports = checkRoles;
