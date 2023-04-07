@@ -7,10 +7,6 @@ const getOrderSchema = Joi.object({
   id: id.required(),
 });
 
-const createOrderSchema = Joi.object({
-  customerId: customerId.required(),
-});
-
 const updateOrderSchema = Joi.object({
   id: id,
   customerId: customerId,
@@ -24,7 +20,6 @@ const addItemSchema = Joi.object({
 
 module.exports = {
   getOrderSchema,
-  createOrderSchema,
   updateOrderSchema,
   addItemSchema,
 };

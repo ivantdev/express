@@ -1,9 +1,12 @@
 const boom = require('@hapi/boom');
 const { models } = require("../libs/sequelize");
+const sequelize = require("../libs/sequelize");
 
 class OrderService {
-  async create(data) {
-    const order = await models.Order.create(data);
+  async create(userId) {
+    const order = await models.Order.create({
+      customerId: sequelize.literal(`(SELECT id FROM customers WHERE user_id = ${userId})`),
+    });
     return order;
   }
 
@@ -14,6 +17,21 @@ class OrderService {
 
   async find() {
     const orders = await models.Order.findAll();
+    return orders;
+  }
+
+  async findByUserId(id) {
+    const orders = await models.Order.findAll({
+      where: {
+        '$customer.user_id$': id
+      },
+      include: [{
+          association: "customer",
+          include: ["user"],
+        },
+        "items"
+      ],
+    });
     return orders;
   }
 
