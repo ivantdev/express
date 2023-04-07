@@ -145,4 +145,4 @@ dist
 
 .vscode
 
-.postgres_data
+postgres_data
