@@ -8,6 +8,7 @@ const authHandler = require("./middlewares/auth.handler");
 
 // middleware
 app.use(express.json());
+require("./utils/auth");
 
 app.get("/", authHandler, (req, res) => {
   res.send("hola mundo, desde express");
